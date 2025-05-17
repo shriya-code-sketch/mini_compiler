@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini Compiler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='codemirror/lib/codemirror.css') }}">
+    <script src="{{ url_for('static', filename='codemirror/lib/codemirror.js') }}"></script>
+    <script src="{{ url_for('static', filename='codemirror/mode/python/python.js') }}"></script>
+</head>
+<body>
+    <h1>Mini Compiler</h1>
+    <form method="POST">
+        <textarea id="code" name="code">{{ request.form.code or '' }}</textarea><br>
+        <button type="submit">Compile</button>
+    </form>
+    <h3>Output:</h3>
+    <pre>{{ output }}</pre>
+
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            mode: "python",
+            theme: "default"
+        });
+    </script>
+</body>
+</html>
