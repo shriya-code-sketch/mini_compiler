@@ -1,0 +1,23 @@
+body {
+    font-family: Arial;
+    background: #f7f7f7;
+    padding: 20px;
+}
+textarea {
+    font-family: monospace;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background: #007BFF;
+    color: white;
+    border: none;
+}
+pre {
+    background: #eee;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
