@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from lexer import tokens
+from .lexer import tokens
 
 symbol_table = {}
 
