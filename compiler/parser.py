@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from .lexer import tokens
+from .lexer import tokens  # Note the dot for relative import
 
 symbol_table = {}
 
@@ -31,11 +31,11 @@ def p_expression_binop(p):
         print("Semantic Error: Type mismatch")
         p[0] = 0
     else:
-        if p[2] == '+': p[0] = p[1] + p[3]
-        elif p[2] == '-': p[0] = p[1] - p[3]
-        elif p[2] == '*': p[0] = p[1] * p[3]
-        elif p[2] == '/': p[0] = p[1] / p[3]
-    p[0] = ('binop', p[2], p[1], p[3])
+        if p[2] == '+': result = p[1] + p[3]
+        elif p[2] == '-': result = p[1] - p[3]
+        elif p[2] == '*': result = p[1] * p[3]
+        elif p[2] == '/': result = p[1] / p[3]
+        p[0] = result
 
 def p_expression_group(p):
     'expression : LPAREN expression RPAREN'
