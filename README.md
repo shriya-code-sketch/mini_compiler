@@ -3,12 +3,17 @@
 ## Project Overview
 This project implements a basic compiler that takes simple arithmetic and assignment expressions as input, performs lexical analysis, parsing, and semantic analysis, and outputs the evaluated result. It is designed as part of the Compiler Design coursework to demonstrate key compiler phases and concepts.
 
-## Features
-- Lexical Analysis using PLY (Python Lex-Yacc)
-- Parser with grammar rules to handle assignments and arithmetic expressions
-- Semantic analysis with symbol table management
-- Basic error handling for illegal characters and undeclared variables
-- Simple web interface using Flask and CodeMirror for code editing and compiling
+## Features## Features
+- Lexical Analysis using PLY
+- Parsing with grammar rules for expressions, conditionals, and loops
+- Semantic analysis with variable declarations and evaluations
+- Support for:
+  - Assignments (e.g., a = 5)
+  - Arithmetic operations (+, -, *, /)
+  - Comparison operators (<, >, ==)
+  - if and if-else statements
+  - while loops
+- Beautiful, single-page web UI built with Flask and CodeMirror
 
 ## Technology Stack
 - Python 3
@@ -45,15 +50,16 @@ README.md # Project documentation
 - **Niharika**: Parser Developer — built the parser to construct parse trees and syntax validation.
 - **Siddhi**: Web Integration and Testing — developed Flask app, integrated CodeMirror editor, and handled testing and deployment.
 
-## Future Scope
-- Extend grammar to support more language constructs (loops, functions, arrays)
-- Add intermediate code generation and optimization phases
-- Support for detailed error reporting and debugging
-- Implement code generation for a target machine or virtual machine
-- Enhance the web interface with features like syntax highlighting and auto-completion
+## Future Scope## Future Scope
+- Add nested block support (e.g., braces or indentation)
+- Implement intermediate code generation
+- Introduce switch-case and for loops
+- Add syntax error highlights in the UI
+- Export output as downloadable files
+
 
 ## Known Issues
-- Limited grammar scope; currently supports only simple arithmetic and assignment
+- Limited grammar scope
 - Semantic checks are basic and may need enhancement for complex programs
 - No support for multi-line blocks or nested scopes yet
 
