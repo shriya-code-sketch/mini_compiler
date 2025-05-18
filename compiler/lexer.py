@@ -32,24 +32,17 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
-
+# ✅ This is the correct version (no double backslashes)
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-
+# ✅ This ignores spaces and tabs
 t_ignore = ' \t'
 
 def t_error(t):
     print(f"Illegal character: {repr(t.value[0])}")
     t.lexer.skip(1)
 
-
-lexer = lex.lex()
-
-
-def t_error(t):
-    print(f"Illegal character '{t.value[0]}'")
-    t.lexer.skip(1)
 
 lexer = lex.lex()
