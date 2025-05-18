@@ -2,132 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mini Compiler</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-
-  <style>
-    /* Dark mode styles */
-    body.dark-mode {
-      background-color: #121212;
-      color: #eee;
-    }
-    body.dark-mode .info-card, 
-    body.dark-mode .editor-card, 
-    body.dark-mode .footer, 
-    body.dark-mode header.hero {
-      background-color: #1e1e1e;
-      box-shadow: none;
-    }
-    body.dark-mode .CodeMirror {
-      background: #1e1e1e;
-      color: #eee;
-    }
-
-    /* Output box styles */
-    .output-box {
-      background-color: #f0f0f0;
-      padding: 1em;
-      max-height: 200px;
-      overflow-y: auto;
-      font-family: monospace;
-      white-space: pre-wrap;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      min-height: 80px;
-      user-select: text;
-    }
-    body.dark-mode .output-box {
-      background-color: #333;
-      color: #ddd;
-      border-color: #555;
-    }
-
-    /* Collapsible card styles */
-    .collapsible {
-      background-color: #eee;
-      color: #444;
-      cursor: pointer;
-      padding: 1em;
-      width: 100%;
-      border: none;
-      text-align: left;
-      outline: none;
-      font-size: 1.2em;
-      border-radius: 5px;
-      margin-top: 0.5em;
-      transition: background-color 0.3s ease;
-    }
-    .collapsible:hover {
-      background-color: #ccc;
-    }
-    .collapsible.active {
-      background-color: #ccc;
-    }
-    .collapsible-content {
-      padding: 0 1em;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      background-color: white;
-      border-radius: 0 0 5px 5px;
-      box-shadow: inset 0 0 5px #aaa;
-      margin-bottom: 1em;
-    }
-    body.dark-mode .collapsible {
-      background-color: #333;
-      color: #ddd;
-    }
-    body.dark-mode .collapsible:hover,
-    body.dark-mode .collapsible.active {
-      background-color: #555;
-    }
-    body.dark-mode .collapsible-content {
-      background-color: #222;
-      box-shadow: inset 0 0 5px #000;
-    }
-
-    /* Button styles */
-    .btn-sample {
-      margin-left: 10px;
-      padding: 0.3em 0.6em;
-      font-size: 0.9em;
-      cursor: pointer;
-      border-radius: 4px;
-      border: 1px solid #007BFF;
-      background-color: #007BFF;
-      color: white;
-      transition: background-color 0.3s ease;
-    }
-    .btn-sample:hover {
-      background-color: #0056b3;
-      border-color: #0056b3;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
 </head>
 <body>
+
+  <!-- Dark Mode Toggle -->
+  <button id="darkModeToggle" aria-label="Toggle Dark Mode">🌙 Dark Mode</button>
+
+  <!-- Hero Section -->
   <header class="hero" data-aos="fade-down">
     <h1>✨ Mini Compiler ✨</h1>
     <p>Type code, compile it, and understand how compilers work — live in your browser!</p>
-
-    <!-- Dark mode toggle -->
-    <label style="cursor:pointer; user-select:none;">
-      <input type="checkbox" id="darkModeToggle" /> Dark Mode
-    </label>
-
-    <a href="#try-it" class="btn" style="margin-left: 20px;">Try It Yourself ↓</a>
+    <a href="#try-it" class="btn">Try It Yourself ↓</a>
   </header>
 
+  <!-- About Section -->
   <section class="info-card" data-aos="fade-up">
-    <h2> About This Project</h2>
-    <p>This compiler is a project built using Python, Flask, and PLY. It teaches how real compilers tokenize, parse, and evaluate code by providing live feedback in a fun interface.</p>
+    <h2 class="collapsible">About This Project</h2>
+    <div class="collapsible-content">
+      <p>This compiler is a project built using Python, Flask, and PLY. It teaches how real compilers tokenize, parse, and evaluate code by providing live feedback in a fun interface.</p>
+    </div>
   </section>
 
-  <!-- Collapsible How It Works Section -->
+  <!-- How it Works Section -->
   <section class="info-card" data-aos="fade-up">
-    <button class="collapsible">How It Works</button>
+    <h2 class="collapsible">How It Works</h2>
     <div class="collapsible-content">
       <ul>
         <li><strong>Lexical Analysis:</strong> Breaks code into tokens like variables and operators.</li>
@@ -137,49 +40,46 @@
     </div>
   </section>
 
+  <!-- Compiler Interface -->
   <section id="try-it" class="editor-card" data-aos="fade-up">
     <h2>Try the Compiler</h2>
-
-    <!-- Load sample code buttons -->
-    <button class="btn-sample" data-sample="
-    a = 5 
-    b = 10
-    c = a + b">Load Sample 1</button>
-    <button class="btn-sample" data-sample="
-    x = 7
-    y = x * 3
-    z = y - 1">Load Sample 2</button>
-
-    <form method="POST" id="compileForm" style="margin-top: 1em;">
+    <form method="POST" id="compileForm">
       <textarea id="code" name="code">{{ request.form.code or 'a = 5\nb = 10\nc = a + b' }}</textarea><br>
       <button type="submit" class="btn">Compile</button>
+      <button type="button" class="btn btn-sample" id="loadSample">Load Sample Code</button>
     </form>
 
-    <h3> Output</h3>
-    <pre class="output-box" id="output-box"></pre>
+    <h3>Output</h3>
+    <pre class="output-box" id="output-box">{{ output }}</pre>
   </section>
 
+  <!-- Team Section -->
   <section class="info-card" data-aos="fade-up">
-    <h2>Meet the Team</h2>
-    <ul>
-      <li><strong>Shriya</strong> – Grammar Designer & Parser Developer</li>
-      <li><strong>Riya</strong> – Lexer Developer</li>
-      <li><strong>Niharika</strong> – Semantic Checker & IR Testing</li>
-      <li><strong>Siddhi</strong> – Web Developer & UI Integration</li>
-    </ul>
+    <h2 class="collapsible">👩‍💼 Meet the Team</h2>
+    <div class="collapsible-content">
+      <ul>
+        <li><strong>Shriya</strong> – Grammar Designer & Parser Developer</li>
+        <li><strong>Riya</strong> – Lexer Developer</li>
+        <li><strong>Niharika</strong> – Semantic Checker & IR Testing</li>
+        <li><strong>Siddhi</strong> – Web Developer & UI Integration</li>
+      </ul>
+    </div>
   </section>
 
+  <!-- Footer -->
   <footer class="footer" data-aos="fade-up">
     <p>Made with ❤️ by Team SyntaxToExecution | CD Project</p>
   </footer>
 
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
   <script>
     AOS.init();
 
-    // Initialize CodeMirror editor
+    // CodeMirror setup
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
       lineNumbers: true,
       mode: "python",
@@ -187,55 +87,61 @@
     });
 
     // Dark mode toggle
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    darkModeToggle.addEventListener('change', () => {
-      document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    if (localStorage.getItem('darkMode') === 'enabled') {
+      body.classList.add('dark');
+      toggleBtn.textContent = '☀️ Light Mode';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      if (body.classList.contains('dark')) {
+        toggleBtn.textContent = '☀️ Light Mode';
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        toggleBtn.textContent = '🌙 Dark Mode';
+        localStorage.setItem('darkMode', 'disabled');
+      }
     });
 
-    // Load sample code buttons
-    const sampleButtons = document.querySelectorAll('.btn-sample');
-    sampleButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        editor.setValue(btn.getAttribute('data-sample'));
-      });
+    // Load sample code
+    document.getElementById('loadSample').addEventListener('click', () => {
+      const sample = `a = 5\nb = 10\nc = a + b\n`;
+      editor.setValue(sample);
     });
+
+    // Typing effect on output
+    const outputBox = document.getElementById('output-box');
+    if (outputBox && outputBox.textContent.trim() !== "") {
+      const text = outputBox.textContent.trim();
+      outputBox.textContent = '';
+      outputBox.classList.add('output-typing');
+
+      let i = 0;
+      function typeWriter() {
+        if (i < text.length) {
+          outputBox.textContent += text.charAt(i);
+          i++;
+          setTimeout(typeWriter, 30);
+        } else {
+          outputBox.classList.remove('output-typing');
+        }
+      }
+      typeWriter();
+    }
 
     // Collapsible cards
     const collapsibles = document.querySelectorAll('.collapsible');
-    collapsibles.forEach(button => {
-      button.addEventListener('click', () => {
-        button.classList.toggle('active');
-        const content = button.nextElementSibling;
-        if (content.style.maxHeight){
-          content.style.maxHeight = null;
-        } else {
-          content.style.maxHeight = content.scrollHeight + "px";
-        } 
+    collapsibles.forEach(title => {
+      const content = title.nextElementSibling;
+      content.classList.remove('open'); // Ensure collapsed on load
+      title.addEventListener('click', () => {
+        content.classList.toggle('open');
+        content.style.maxHeight = content.classList.contains('open') ? content.scrollHeight + 'px' : null;
       });
     });
-
-    // Typing animation for output
-    function typeOutput(text, element, speed = 30) {
-      element.textContent = '';
-      let i = 0;
-      function typing() {
-        if (i < text.length) {
-          element.textContent += text.charAt(i);
-          i++;
-          setTimeout(typing, speed);
-        }
-      }
-      typing();
-    }
-
-    // On page load, animate the existing output text from Flask variable
-    const outputText = `{{ output | replace('\n', '\\n') | replace('\r', '') | safe }}`;
-    const outputBox = document.getElementById('output-box');
-    if(outputText.trim()) {
-      typeOutput(outputText, outputBox);
-    }
-
-    
   </script>
 </body>
 </html>
