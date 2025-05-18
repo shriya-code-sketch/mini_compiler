@@ -1,7 +1,7 @@
 # Syntax to Execution: Building a Basic Compiler
 
 ## Project Overview
-This project implements a basic compiler that takes simple arithmetic and assignment expressions as input, performs lexical analysis, parsing, and semantic analysis, and outputs the evaluated result. It is designed as part of the Compiler Design coursework to demonstrate key compiler phases and concepts.
+This project implements a basic compiler that takes simple arithmetic, relational, logical, assignment, and conditional expressions, while statements cover expression statements, compound blocks, selection statements like if-else and switch-case as input, performs lexical analysis, parsing, and semantic analysis, and outputs the evaluated result. It is designed as part of the Compiler Design coursework to demonstrate key compiler phases and concepts.
 
 ## Features##
 - Lexical Analysis using PLY
@@ -13,6 +13,7 @@ This project implements a basic compiler that takes simple arithmetic and assign
   - Comparison operators (<, >, ==)
   - if and if-else statements
   - while loops
+  - switch cases
 - Beautiful, single-page web UI built with Flask and CodeMirror
 
 ## Technology Stack
@@ -61,7 +62,6 @@ README.md # Project documentation
 ## Known Issues
 - Limited grammar scope
 - Semantic checks are basic and may need enhancement for complex programs
-- No support for multi-line blocks or nested scopes yet
 
 
 Thank you for exploring our compiler project!
