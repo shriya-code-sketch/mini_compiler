@@ -1,77 +1,120 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root {
+  --blue: #007BFF;
+  --blue-light: #00c6ff;
+  --bg-light: #f2f9ff;
+  --bg-dark: #121212;
+  --card-light: #ffffff;
+  --card-dark: #1e1e1e;
+  --text-light: #333333;
+  --text-dark: #ddd;
+  --btn-bg-light: #ffffff;
+  --btn-bg-dark: #333;
+}
+
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f2f9ff;
-    margin: 0;
-    padding: 0;
-    scroll-behavior: smooth;
-  }
-  
-  .hero {
-    background: linear-gradient(to right, #007BFF, #00c6ff);
-    color: white;
-    text-align: center;
-    padding: 60px 20px;
-  }
-  
-  .hero h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-  }
-  
-  .btn {
-    background: white;
-    color: #007BFF;
-    padding: 12px 24px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1em;
-    transition: background 0.3s;
-    display: inline-block;
-    margin-top: 15px;
-  }
-  
-  .btn:hover {
-    background: #e0e0e0;
-  }
-  
-  .info-card, .editor-card {
-    max-width: 850px;
-    background: white;
-    margin: 40px auto;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-  
-  .info-card h2, .editor-card h2 {
-    margin-top: 0;
-    color: #007BFF;
-  }
-  
-  .info-card ul {
-    padding-left: 1.2rem;
-  }
-  
-  .output-box {
-    background: #eef;
-    padding: 15px;
-    min-height: 100px;
-    white-space: pre-wrap;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin-top: 10px;
-    font-family: monospace;
-    color: #333;
-  }
-  
-  footer.footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 0.9em;
-    background: #eaf3ff;
-    margin-top: 40px;
-    color: #555;
-  }
-  
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-light);
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  color: var(--text-light);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Dark mode styles */
+body.dark {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(to right, var(--blue), var(--blue-light));
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+  user-select: none;
+  position: relative;
+}
+
+/* Dark mode hero background */
+body.dark .hero {
+  background: linear-gradient(135deg, #0062cc, #0099cc);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.6);
+}
+
+.hero h1 {
+  font-size: 2.8em;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.hero p {
+  font-size: 1.1em;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn, .btn-sample {
+  background: var(--btn-bg-light);
+  color: var(--blue);
+  padding: 12px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  margin-top: 15px;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.25);
+  user-select: none;
+}
+
+.btn:hover, .btn-sample:hover {
+  background: #e0e0e0;
+  box-shadow: 0 5px 20px rgba(0, 123, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+body.dark .btn, body.dark .btn-sample {
+  background: var(--btn-bg-dark);
+  color: var(--blue-light);
+  box-shadow: 0 2px 10px rgba(0, 123, 255, 0.5);
+}
+
+body.dark .btn:hover, body.dark .btn-sample:hover {
+  background: #444;
+  box-shadow: 0 5px 20px rgba(0, 123, 255, 0.7);
+}
+
+/* Cards (info and editor) */
+.info-card, .editor-card {
+  max-width: 850px;
+  background: var(--card-light);
+  margin: 40px auto;
+  padding: 30px 35px;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  width: 90%;
+  user-select: text;
+}
+
+body.dark .info-card, body.dark .editor-card {
+  background: var(--card-dark);
+}
 
