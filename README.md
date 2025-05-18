@@ -3,7 +3,7 @@
 ## Project Overview
 This project implements a basic compiler that takes simple arithmetic and assignment expressions as input, performs lexical analysis, parsing, and semantic analysis, and outputs the evaluated result. It is designed as part of the Compiler Design coursework to demonstrate key compiler phases and concepts.
 
-## Features## Features
+## Features##
 - Lexical Analysis using PLY
 - Parsing with grammar rules for expressions, conditionals, and loops
 - Semantic analysis with variable declarations and evaluations
