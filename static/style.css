@@ -34,4 +34,15 @@ pre {
     margin-top: 0;
     color: #007BFF;
 }
+.welcome-banner {
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.welcome-banner h1 {
+    color: #0077cc;
+}
 
