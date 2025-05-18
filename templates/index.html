@@ -1,74 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mini Compiler</title>
-    <div class="welcome-banner"></div>
-        <h1> Mini Compiler </h1>
-        <p>Type your code, hit "Compile", and watch the magic happen!</p>
-      </div>
-    
-    <!-- Load CodeMirror via CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
-
-    
-    <style>
-        body {
-            font-family: Arial;
-            background: #f7f7f7;
-            padding: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            margin-top: 10px;
-            background: #007BFF;
-            color: white;
-            border: none;
-        }
-        pre {
-            background: #eee;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-        .CodeMirror {
-            border: 1px solid #ccc;
-            height: auto;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Mini Compiler</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 </head>
 <body>
+  <header class="hero" data-aos="fade-down">
+    <h1>✨ Mini Compiler ✨</h1>
+    <p>Type code, compile it, and understand how compilers work — live in your browser!</p>
+    <a href="#try-it" class="btn">Try It Yourself ↓</a>
+  </header>
+
+  <section class="info-card" data-aos="fade-up">
+    <h2> About This Project</h2>
+    <p>This compiler is a project built using Python, Flask, and PLY. It teaches how real compilers tokenize, parse, and evaluate code by providing live feedback in a fun interface.</p>
+  </section>
+
+  <section class="info-card" data-aos="fade-up">
+    <h2> How It Works</h2>
+    <ul>
+      <li><strong>Lexical Analysis:</strong> Breaks code into tokens like variables and operators.</li>
+      <li><strong>Parsing:</strong> Checks if the code follows grammar rules.</li>
+      <li><strong>Semantic Analysis:</strong> Evaluates correctness and executes the logic.</li>
+    </ul>
+  </section>
+
+  <section id="try-it" class="editor-card" data-aos="fade-up">
+    <h2> Try the Compiler</h2>
     <form method="POST">
-        <textarea id="code" name="code">{{ request.form.code or '' }}</textarea><br>
-        <button type="submit">Compile</button>
+      <textarea id="code" name="code">{{ request.form.code or 'a = 5\nb = 10\nc = a + b' }}</textarea><br>
+      <button type="submit" class="btn">Compile</button>
     </form>
 
-    <h3>Output:</h3>
-    <pre>{{ output }}</pre>
+    <h3> Output</h3>
+    <pre class="output-box">{{ output }}</pre>
+  </section>
 
-    <script>
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            lineNumbers: true,
-            mode: "python",
-            theme: "default"
-        });
-    </script>
-    <div class="info-card"></div>
-        <h2> About This Compiler</h2>
-        <p>
-          This is a simple educational compiler built from scratch using Python. 
-          It reads small code snippets written in a custom language, understands them, 
-          and shows the result after checking for errors. It simulates how real compilers work!
-        </p>
-      </div>
-      <div class="info-card">
-        <h2> How This Compiler Works</h2>
-        <ol>
-          <li><strong>Step 1:</strong> Lexer breaks code into tokens</li>
-          <li><strong>Step 2:</strong> Parser checks grammar</li>
-          <li><strong>Step 3:</strong> Semantic analysis ensures correctness</li>
-          <li><strong>Step 4:</strong> Output is shown below</li>
-        </ol>
-      </div>
+  <section class="info-card" data-aos="fade-up">
+    <h2>Meet the Team</h2>
+    <ul>
+      <li><strong>Shriya</strong> – Grammar Designer & Parser Developer</li>
+      <li><strong>Riya</strong> – Lexer Developer</li>
+      <li><strong>Niharika</strong> – Semantic Checker & IR Testing</li>
+      <li><strong>Siddhi</strong> – Web Developer & UI Integration</li>
+    </ul>
+  </section>
+
+  <footer class="footer" data-aos="fade-up">
+    <p>Made with ❤️ by Team SyntaxToExecution | CD Project</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      lineNumbers: true,
+      mode: "python",
+      theme: "default"
+    });
+  </script>
 </body>
 </html>
+
+
+
