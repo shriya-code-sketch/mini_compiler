@@ -5,85 +5,224 @@
   <title>Mini Compiler</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
+  <!-- Floating Particles Background -->
+  <div id="particles-js"></div>
 
-  <!-- Dark Mode Toggle -->
-  <button id="darkModeToggle" aria-label="Toggle Dark Mode">🌙 Dark Mode</button>
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="nav-container">
+      <span class="logo">SyntaxToExecution</span>
+      <div class="nav-right">
+        <button id="darkModeToggle" aria-label="Toggle Dark Mode">
+          <i class="fas fa-moon"></i>
+          <span>Dark Mode</span>
+        </button>
+      </div>
+    </div>
+  </nav>
 
   <!-- Hero Section -->
   <header class="hero" data-aos="fade-down">
-    <h1>✨ Mini Compiler ✨</h1>
-    <p>Type code, compile it, and understand how compilers work — live in your browser!</p>
-    <a href="#try-it" class="btn">Try It Yourself ↓</a>
+    <div class="hero-content">
+      <h1><span class="gradient-text">✨ Mini Compiler ✨</span></h1>
+      <p>Type code, compile it, and understand how compilers work — live in your browser!</p>
+      <div class="hero-buttons">
+        <a href="#try-it" class="btn pulse">
+          <i class="fas fa-play"></i> Try It Now
+        </a>
+        <a href="#how-it-works" class="btn btn-outline">
+          <i class="fas fa-info-circle"></i> Learn More
+        </a>
+      </div>
+    </div>
+    <div class="hero-illustration">
+      <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" alt="Compiler Illustration">
+    </div>
   </header>
 
-  <!-- About Section -->
-  <section class="info-card" data-aos="fade-up">
-    <h2 class="collapsible">About This Project</h2>
-    <div class="collapsible-content">
-      <p>This compiler is a project built using Python, Flask, and PLY. It teaches how real compilers tokenize, parse, and evaluate code by providing live feedback in a fun interface.</p>
-    </div>
-  </section>
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Compiler Interface -->
+    <section id="try-it" class="compiler-section" data-aos="fade-up">
+      <div class="section-header">
+        <h2><i class="fas fa-code"></i> Compiler Playground</h2>
+        <div class="toolbar">
+          <button id="loadSample" class="tool-btn">
+            <i class="fas fa-file-code"></i> Sample Code
+          </button>
+          <button id="clearCode" class="tool-btn">
+            <i class="fas fa-trash-alt"></i> Clear
+          </button>
+        </div>
+      </div>
+      
+      <form method="POST" id="compileForm" class="compiler-form">
+        <div class="code-editor">
+          <div class="editor-header">
+            <span class="file-name">script.py</span>
+            <div class="editor-controls">
+              <span class="control-dot red"></span>
+              <span class="control-dot yellow"></span>
+              <span class="control-dot green"></span>
+            </div>
+          </div>
+          <textarea id="code" name="code">{{ request.form.code or 'a = 5;\nb = 10;\nc = a + b;\nd = (a * b) - c; ' }}</textarea>
+        </div>
+        
+        <button type="submit" class="btn compile-btn">
+          <i class="fas fa-play"></i> Compile & Run
+          <span class="pulse-dot"></span>
+        </button>
+      </form>
 
-  <!-- How it Works Section -->
-  <section class="info-card" data-aos="fade-up">
-    <h2 class="collapsible">How It Works</h2>
-    <div class="collapsible-content">
-      <ul>
-        <li><strong>Lexical Analysis:</strong> Breaks code into tokens like variables and operators.</li>
-        <li><strong>Parsing:</strong> Checks if the code follows grammar rules.</li>
-        <li><strong>Semantic Analysis:</strong> Evaluates correctness and executes the logic.</li>
-      </ul>
-    </div>
-  </section>
+      <div class="output-container">
+        <div class="output-header">
+          <h3><i class="fas fa-terminal"></i> Output</h3>
+          <div class="output-tabs">
+            <button class="tab-btn active" data-tab="output">Output</button>
+            <button class="tab-btn" data-tab="symbols">Symbol Table</button>
+            <button class="tab-btn" data-tab="ast">AST</button>
+          </div>
+        </div>
+        <div class="output-content">
+          <pre id="output-box" class="tab-content active">{{ output }}</pre>
+          <pre id="symbol-table" class="tab-content"></pre>
+          <pre id="ast-view" class="tab-content"></pre>
+        </div>
+      </div>
+    </section>
 
-  <!-- Compiler Interface -->
-  <section id="try-it" class="editor-card" data-aos="fade-up">
-    <h2>Try the Compiler</h2>
-    <form method="POST" id="compileForm">
-      <textarea id="code" name="code">{{ request.form.code or 'a = 5\nb = 10\nc = a + b' }}</textarea><br>
-      <button type="submit" class="btn">Compile</button>
-      <button type="button" class="btn btn-sample" id="loadSample">Load Sample Code</button>
-    </form>
+    <!-- How it Works Section -->
+    <section id="how-it-works" class="info-section" data-aos="fade-up">
+      <h2><i class="fas fa-cogs"></i> How It Works</h2>
+      <div class="process-steps">
+        <div class="process-card">
+          <div class="process-icon lexer">
+            <i class="fas fa-font"></i>
+          </div>
+          <h3>Lexical Analysis</h3>
+          <p>Breaks code into tokens like variables, operators, and literals</p>
+        </div>
+        
+        <div class="process-arrow">
+          <i class="fas fa-arrow-right"></i>
+        </div>
+        
+        <div class="process-card">
+          <div class="process-icon parser">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <h3>Syntax Analysis</h3>
+          <p>Checks if tokens follow grammar rules and builds parse tree</p>
+        </div>
+        
+        <div class="process-arrow">
+          <i class="fas fa-arrow-right"></i>
+        </div>
+        
+        <div class="process-card">
+          <div class="process-icon semantic">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h3>Semantic Analysis</h3>
+          <p>Validates program logic and generates output</p>
+        </div>
+      </div>
+    </section>
 
-    <h3>Output</h3>
-    <pre class="output-box" id="output-box">{{ output }}</pre>
-  </section>
-
-  <!-- Team Section -->
-  <section class="info-card" data-aos="fade-up">
-    <h2 class="collapsible"> Meet the Team</h2>
-    <div class="collapsible-content">
-      <ul>
-        <li><strong>Shriya</strong> – Grammar Designer & Parser Developer</li>
-        <li><strong>Riya</strong> – Lexer Developer</li>
-        <li><strong>Niharika</strong> – Semantic Checker & IR Testing</li>
-        <li><strong>Siddhi</strong> – Web Developer & UI Integration</li>
-      </ul>
-    </div>
-  </section>
+    <!-- Team Section -->
+    <section class="team-section" data-aos="fade-up">
+      <h2><i class="fas fa-users"></i> Meet the Team</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar shriya">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <h3>Shriya</h3>
+          <p>Grammar Designer & Parser Developer</p>
+        </div>
+        
+        <div class="team-card">
+          <div class="team-avatar riya">
+            <i class="fas fa-keyboard"></i>
+          </div>
+          <h3>Riya</h3>
+          <p>Lexer Developer</p>
+        </div>
+        
+        <div class="team-card">
+          <div class="team-avatar niharika">
+            <i class="fas fa-check-double"></i>
+          </div>
+          <h3>Niharika</h3>
+          <p>Semantic Checker & Testing</p>
+        </div>
+        
+        <div class="team-card">
+          <div class="team-avatar siddhi">
+            <i class="fas fa-paint-brush"></i>
+          </div>
+          <h3>Siddhi</h3>
+          <p>Web Developer & UI Integration</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer class="footer" data-aos="fade-up">
-    <p>Made with ❤️ by Team SyntaxToExecution | CD Project</p>
+  <footer class="glass-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <span>SyntaxToExecution</span>
+        <p>Compiler Design Project</p>
+      </div>
+      <div class="footer-links">
+        <a href="#try-it"><i class="fas fa-code"></i> Compiler</a>
+        <a href="#how-it-works"><i class="fas fa-info-circle"></i> About</a>
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Made with <i class="fas fa-heart"></i> by Team SyntaxToExecution</p>
+    </div>
   </footer>
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
   <script>
-    AOS.init();
+    // Initialize animations
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out-quad'
+    });
 
     // CodeMirror setup
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
       lineNumbers: true,
       mode: "python",
-      theme: "default"
+      theme: "default",
+      indentUnit: 4,
+      tabSize: 4,
+      lineWrapping: true,
+      autoCloseBrackets: true,
+      matchBrackets: true,
+      extraKeys: {
+        "Ctrl-Enter": compileCode,
+        "Cmd-Enter": compileCode
+      }
     });
 
     // Dark mode toggle
@@ -91,55 +230,152 @@
     const body = document.body;
 
     if (localStorage.getItem('darkMode') === 'enabled') {
-      body.classList.add('dark');
-      toggleBtn.textContent = '☀️ Light Mode';
+      enableDarkMode();
     }
 
-    toggleBtn.addEventListener('click', () => {
-      body.classList.toggle('dark');
-      if (body.classList.contains('dark')) {
-        toggleBtn.textContent = '☀️ Light Mode';
-        localStorage.setItem('darkMode', 'enabled');
+    toggleBtn.addEventListener('click', toggleDarkMode);
+
+    function toggleDarkMode() {
+      if (body.classList.contains('dark-mode')) {
+        disableDarkMode();
       } else {
-        toggleBtn.textContent = '🌙 Dark Mode';
-        localStorage.setItem('darkMode', 'disabled');
+        enableDarkMode();
       }
-    });
+    }
+
+    function enableDarkMode() {
+      body.classList.add('dark-mode');
+      toggleBtn.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+      localStorage.setItem('darkMode', 'enabled');
+      editor.setOption('theme', 'dracula');
+    }
+
+    function disableDarkMode() {
+      body.classList.remove('dark-mode');
+      toggleBtn.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
+      localStorage.setItem('darkMode', 'disabled');
+      editor.setOption('theme', 'default');
+    }
 
     // Load sample code
     document.getElementById('loadSample').addEventListener('click', () => {
-      const sample = `a = 5\nb = 10\nc = a + b\n`;
-      editor.setValue(sample);
+     
     });
 
-    // Typing effect on output
-    const outputBox = document.getElementById('output-box');
-    if (outputBox && outputBox.textContent.trim() !== "") {
-      const text = outputBox.textContent.trim();
-      outputBox.textContent = '';
-      outputBox.classList.add('output-typing');
+    // Clear code
+    document.getElementById('clearCode').addEventListener('click', () => {
+      editor.setValue('');
+    });
 
+    // Tab switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabName = btn.getAttribute('data-tab');
+        
+        // Update active tab button
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Update active tab content
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        document.getElementById(tabName + '-box').classList.add('active');
+      });
+    });
+
+    // Form submission
+    const compileForm = document.getElementById('compileForm');
+    compileForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      compileCode();
+    });
+
+    function compileCode() {
+      const outputBox = document.getElementById('output-box');
+      const symbolTable = document.getElementById('symbol-table');
+      const astView = document.getElementById('ast-view');
+      
+      // Show loading state
+      outputBox.textContent = "Compiling...";
+      outputBox.classList.add('output-typing');
+      
+      // Get code from editor
+      const code = editor.getValue();
+      
+      // Send to server
+      fetch('/compile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `code=${encodeURIComponent(code)}`
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Display output with typing effect
+          typeText(outputBox, data.output || "No output generated");
+          typeText(symbolTable, JSON.stringify(data.symbol_table, null, 2) || "No symbols");
+          typeText(astView, data.ast || "No AST generated");
+        } else {
+          outputBox.textContent = "Error: " + data.error;
+          symbolTable.textContent = "";
+          astView.textContent = "";
+        }
+      })
+      .catch(error => {
+        outputBox.textContent = "Error: " + error.message;
+        symbolTable.textContent = "";
+        astView.textContent = "";
+      });
+    }
+
+    function typeText(element, text) {
+      element.textContent = '';
+      element.classList.add('output-typing');
+      
       let i = 0;
       function typeWriter() {
         if (i < text.length) {
-          outputBox.textContent += text.charAt(i);
+          element.textContent += text.charAt(i);
           i++;
-          setTimeout(typeWriter, 30);
+          setTimeout(typeWriter, 10);
         } else {
-          outputBox.classList.remove('output-typing');
+          element.classList.remove('output-typing');
         }
       }
       typeWriter();
     }
 
-    // Collapsible cards
-    const collapsibles = document.querySelectorAll('.collapsible');
-    collapsibles.forEach(title => {
-      const content = title.nextElementSibling;
-      content.classList.remove('open'); // Ensure collapsed on load
-      title.addEventListener('click', () => {
-        content.classList.toggle('open');
-        content.style.maxHeight = content.classList.contains('open') ? content.scrollHeight + 'px' : null;
+    // Particles.js background
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#007BFF" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#007BFF", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
+        }
+      }
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
       });
     });
   </script>
