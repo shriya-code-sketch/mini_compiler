@@ -43,31 +43,31 @@ def p_statement_while(p):
     while p[2]:
         parser.parse(p[3])
 
-# Switch-Case implementation
-def p_statement_switch(p):
-    '''statement : SWITCH expression LBRACE case_list RBRACE'''
-    switch_value = p[2]
-    cases = p[4]
-    if switch_value in cases:
-        parser.parse(cases[switch_value])
-    elif "default" in cases:
-        parser.parse(cases["default"])
+# # Switch-Case implementation
+# def p_statement_switch(p):
+#     '''statement : SWITCH expression LBRACE case_list RBRACE'''
+#     switch_value = p[2]
+#     cases = p[4]
+#     if switch_value in cases:
+#         parser.parse(cases[switch_value])
+#     elif "default" in cases:
+#         parser.parse(cases["default"])
 
-def p_case_list(p):
-    '''case_list : case
-                 | case_list case'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-        p[0] = {**p[1], **p[2]}
+# def p_case_list(p):
+#     '''case_list : case
+#                  | case_list case'''
+#     if len(p) == 2:
+#         p[0] = p[1]
+#     else:
+#         p[0] = {**p[1], **p[2]}
 
-def p_case(p):
-    '''case : CASE expression COLON statement
-            | DEFAULT COLON statement'''
-    if len(p) == 5:
-        p[0] = {p[2]: p[4]}
-    else:
-        p[0] = {"default": p[3]}
+# def p_case(p):
+#     '''case : CASE expression COLON statement
+#             | DEFAULT COLON statement'''
+#     if len(p) == 5:
+#         p[0] = {p[2]: p[4]}
+#     else:
+#         p[0] = {"default": p[3]}
 
 def p_expression_binop(p):
     '''expression : expression PLUS expression
